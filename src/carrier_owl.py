@@ -15,6 +15,8 @@ from dataclasses import dataclass
 import arxiv
 import requests
 import json
+import flatlatex
+import re
 # setting
 warnings.filterwarnings('ignore')
 
@@ -39,6 +41,23 @@ def calc_score(abst: str, keywords: dict) -> (float, list):
     return sum_score, hit_kwd_list
 
 
+def pretty(s: str) -> str:
+    c = flatlatex.converter()
+    c.allow_zw = False
+
+    s = s.replace('\n', '').strip()
+    m = re.findall(r'\$.+?\$', s)
+    for g in m:
+        t = g[1:-1]
+        if len(t) > 1:
+            t = c.convert(t)
+            s = s.replace(g, t)
+        else:
+            s = s.replace(g, '')
+    
+    return s
+
+
 def search_keyword(
         articles: list, keywords: dict, score_threshold: float
         ) -> list:
@@ -48,13 +67,14 @@ def search_keyword(
         url = article['arxiv_url']
         title = article['title']
         abstract = article['summary']
+        title = pretty(title)
+        abstract = pretty(abstract)
         score, hit_keywords = calc_score(abstract, keywords)
         if (score != 0) and (score >= score_threshold):
             title_trans = get_translated_text('ja', 'en', title)
-            abstract = abstract.replace('\n', '')
             abstract_trans = get_translated_text('ja', 'en', abstract)
-            abstract_trans = textwrap.wrap(abstract_trans, 40)  # 40行で改行
-            abstract_trans = '\n'.join(abstract_trans)
+            # abstract_trans = textwrap.wrap(abstract_trans, 40)  # 40行で改行
+            # abstract_trans = '\n'.join(abstract_trans)
             result = Result(
                     url=url, title=title_trans, abstract=abstract_trans,
                     score=score, words=hit_keywords)
