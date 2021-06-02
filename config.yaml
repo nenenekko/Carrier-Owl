@@ -3,6 +3,16 @@ subject: 'cat:cs.*'
 
 # 検索キーワード
 keywords:
+        nlp: 4
+        nlg: 4
+        transformer: 4
+        bert: 3
+        t5: 3
+        gpt: 3
+        matrix factorization: 4
+        nmf: 4
+        metric Learning: 4
+        patent: 4
         kaggle: 3
         resnet: 3
         anomaly detection: 1
