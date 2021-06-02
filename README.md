@@ -52,6 +52,7 @@
 
     - Slackに通知する場合は[こちら](./docs/slack_setup.md)
     - LINEに通知する場合は[こちら](./docs/line_setup.md)
+    - Discordに通知する場合は[こちら](https://qiita.com/otuhs_d/items/41f018ec3762db93a740)
 
 
 4. **webhook urlの設定**
