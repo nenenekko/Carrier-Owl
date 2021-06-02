@@ -66,7 +66,7 @@
 
         c. `New repository secret` をクリック。
 
-        d. Nameを `SLACK_ID`(または `LINE_TOKEN` ) と入力。Valueを **step2** で取得した`webhook url`(また `line token`)を貼り付けます。
+        d. Nameを `SLACK_ID`(または `LINE_TOKEN` or 'DISCORD_URL') と入力。Valueを **step2** で取得した`webhook url`(また `line token` or 'discord url')を貼り付けます。
 
         <img src='./data/images/07.png' width='1000'>
         
