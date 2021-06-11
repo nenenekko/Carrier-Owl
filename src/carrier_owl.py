@@ -63,7 +63,8 @@ def search_keyword(
         ) -> list:
     results = []
 
-    best_score = 0
+    notify_article_num = 5
+    sorted_articles = []
     for article in articles:
         url = article['arxiv_url']
         title = article['title']
@@ -71,18 +72,18 @@ def search_keyword(
         title = pretty(title)
         abstract = pretty(abstract)
         score, hit_keywords = calc_score(abstract, keywords)
-        if (score != 0) and (score >= score_threshold) and best_score < score:
-            best_score = score
-            best_info = [url,title,abstract,score,hit_keywords]
-        
-    if best_score > 0:
-        title_trans = get_translated_text('ja', 'en', best_info[1])
-        abstract_trans = get_translated_text('ja', 'en', best_info[2])
+        if (score != 0) and (score >= score_threshold):
+            sorted_articles.append([url,title,abstract,score,hit_keywords])
+    sorted_articles = sorted(sorted_articles,key=lambda x:x[3],reverse=True)
+    for i in range(notify_article_num):
+        article = sorted_articles[i]
+        title_trans = get_translated_text('ja', 'en', article[1])
+        abstract_trans = get_translated_text('ja', 'en', article[2])
         # abstract_trans = textwrap.wrap(abstract_trans, 40)  # 40行で改行
         # abstract_trans = '\n'.join(abstract_trans)
         result = Result(
-                 url=best_info[0], title=title_trans, abstract=abstract_trans,
-                 score=best_info[3], words=best_info[4])
+                 url=article[0], title=title_trans, abstract=abstract_trans,
+                 score=article[3], words=article[4])
         results.append(result)
     return results
 
