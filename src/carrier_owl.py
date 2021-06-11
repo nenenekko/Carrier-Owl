@@ -75,7 +75,7 @@ def search_keyword(
             best_score = score
             best_info = [url,title,abstract,score,hit_keywords]
         
-    if best_score > 0
+    if best_score > 0:
         title_trans = get_translated_text('ja', 'en', best_info[1])
         abstract_trans = get_translated_text('ja', 'en', best_info[2])
         # abstract_trans = textwrap.wrap(abstract_trans, 40)  # 40行で改行
